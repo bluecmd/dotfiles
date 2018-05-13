@@ -23,6 +23,7 @@ set scrolloff=10
 set number
 set relativenumber
 set colorcolumn=81
+set visualbell
 color jellybeans
 
 set list
