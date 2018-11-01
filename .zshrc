@@ -15,13 +15,19 @@ TMOUT=1
 TRAPALRM() {
   zle reset-prompt }
 
-EDITOR="vim"
+export EDITOR="vim"
 
 alias ls='ls --color'
 alias vi='vim'
-alias l='i3lock -c000000'
 
+bindkey -e
 bindkey '^Z' push-line
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin/
+
+if uname -r | grep -q Microsoft; then
+  umask 0022
+  cd ~
+  setxkbmap -rules base -model pc105 -layout us -variant altgr-intl
+fi
