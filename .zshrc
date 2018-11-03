@@ -24,10 +24,15 @@ bindkey -e
 bindkey '^Z' push-line
 
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin/
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin/
 
 if uname -r | grep -q Microsoft; then
   umask 0022
   cd ~
   setxkbmap -rules base -model pc105 -layout us -variant altgr-intl
 fi
+
+if [[ $(tty) =~ /dev/ttyS[0-9] ]]; then
+  resize || echo "Am serial console but resize failed, is xterm installed?"
+fi
+[[ -e /etc/zsh_command_not_found ]] && source /etc/zsh_command_not_found
