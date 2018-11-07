@@ -37,6 +37,7 @@ filetype plugin on
 filetype indent on
 
 autocmd Filetype go setlocal noexpandtab
+autocmd Filetype asm setlocal noexpandtab
 
 highlight TrailingSpace ctermbg=red guibg=red
 :match TrailingSpace /\s\+\%#\@<!$/
