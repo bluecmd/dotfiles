@@ -36,3 +36,13 @@ if [[ $(tty) =~ /dev/ttyS[0-9] ]]; then
   resize || echo "Am serial console but resize failed, is xterm installed?"
 fi
 [[ -e /etc/zsh_command_not_found ]] && source /etc/zsh_command_not_found
+
+if [[ -z $SSH_AGENT_PID ]]; then
+  touch $HOME/.ssh-agent
+  source $HOME/.ssh-agent
+  if ! ssh-add -L &> /dev/null; then
+    ssh-agent | grep -vE '^echo' > $HOME/.ssh-agent
+    source $HOME/.ssh-agent
+    ssh-add
+  fi
+fi
