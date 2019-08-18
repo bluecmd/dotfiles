@@ -37,7 +37,7 @@ if [[ $(tty) =~ /dev/ttyS[0-9] ]]; then
 fi
 [[ -e /etc/zsh_command_not_found ]] && source /etc/zsh_command_not_found
 
-if [[ -z $SSH_AGENT_PID ]]; then
+if [[ -z $SSH_AGENT_PID ]] && [[ -z $SSH_AUTH_SOCK ]] && [[ ! -z $DISPLAY ]]; then
   touch $HOME/.ssh-agent
   source $HOME/.ssh-agent
   if ! ssh-add -L &> /dev/null; then
