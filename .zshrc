@@ -15,8 +15,8 @@ compinit
 # 35: magenta
 # 36: cyan
 c=36
-PROMPT=$'%{\e[01;'${c}$'m%}[%{\e[38;5;243m%}%m%{\e[01;'${c}$'m%}]%{\e[01;30m%}%{\e[0;0m%}\$ '
-RPROMPT=$'[%{\e[01;'${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)]'
+PROMPT=$'%{\e['${c}$'m%}[%{\e[38;5;243m%}%m%{\e['${c}$'m%}]%{\e[0;0m%}\$ '
+RPROMPT=$'[%{\e['${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)]'
 
 TMOUT=1
 TRAPALRM() {
