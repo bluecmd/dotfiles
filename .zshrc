@@ -8,14 +8,21 @@ unsetopt appendhistory autocd beep
 autoload -Uz compinit
 compinit
 
-PROMPT=$'%{\e[01;32m%}[%{\e[01;30m%}%m%{\e[01;32m%}]%{\e[01;30m%}%{\e[0;0m%}\$ '
-RPROMPT=$'[%{\e[01;32m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)]'
+# 31: red
+# 32: green
+# 33: yellow
+# 34: blue
+# 35: magenta
+# 36: cyan
+c=36
+PROMPT=$'%{\e[01;'${c}$'m%}[%{\e[38;5;243m%}%m%{\e[01;'${c}$'m%}]%{\e[01;30m%}%{\e[0;0m%}\$ '
+RPROMPT=$'[%{\e[01;'${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)]'
 
 TMOUT=1
 TRAPALRM() {
   zle reset-prompt }
 
-export EDITOR="vim"
+export EDITOR='vim'
 
 alias ls='ls --color'
 alias vi='vim'
@@ -23,13 +30,26 @@ alias vi='vim'
 bindkey -e
 bindkey '^Z' push-line
 
-export GOPATH=$HOME/go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin/
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin/:$HOME/.local/bin
+if [[ -f .zshrc.local ]]; then
+  source .zshrc.local
+fi
 
 if uname -r | grep -q Microsoft; then
   umask 0022
   cd ~
+  # apt install x11-xkb-utils
   setxkbmap -rules base -model pc105 -layout us -variant altgr-intl
+  # Needed for SSH X11 forwarding
+  export DISPLAY="localhost:0"
+  if [[ -z "${GNOME_TERMINAL_SCREEN}" ]]; then
+    if env NO_AT_BRIDGE=1 gnome-terminal; then
+      echo "Gnome-terminal successfully launched instead"
+      # Sleep is sometimes broken in WLS (https://github.com/microsoft/WSL/issues/4898)
+      python3 -c 'import time; time.sleep(0.5)'
+      exit 0
+    fi
+  fi
 fi
 
 if [[ $(tty) =~ /dev/ttyS[0-9] ]]; then
