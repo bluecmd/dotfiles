@@ -30,7 +30,7 @@ alias vi='vim'
 bindkey -e
 bindkey '^Z' push-line
 
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin/:$HOME/.local/bin
+export PATH=/usr/local/go/bin:$PATH:$GOPATH/bin/:$HOME/.local/bin
 if [[ -f .zshrc.local ]]; then
   source .zshrc.local
 fi
