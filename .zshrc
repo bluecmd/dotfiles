@@ -11,6 +11,8 @@ compinit
 function isvpn {
   if [[ "${IS_VPN}" == "1" ]]; then
     echo -n '🔒'
+  else
+    echo -n '  '
   fi
 }
 
@@ -22,7 +24,7 @@ function isvpn {
 # 36: cyan
 c=36
 PROMPT=$'%{\e['${c}$'m%}[%{\e[38;5;243m%}%m%{\e['${c}$'m%}]%{\e[0;0m%}\$ '
-RPROMPT=$'$(isvpn) [%{\e['${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)]'
+RPROMPT=$'[%{\e['${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)] $(isvpn)'
 
 function refreshvpn() {
   IS_VPN=$(curl -s https://am.i.mullvad.net/connected 2> /dev/null | \
