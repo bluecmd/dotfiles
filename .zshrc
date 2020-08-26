@@ -8,6 +8,12 @@ unsetopt appendhistory autocd beep
 autoload -Uz compinit
 compinit
 
+function isvpn {
+  if [[ "${IS_VPN}" == "1" ]]; then
+    echo -n '🔒'
+  fi
+}
+
 # 31: red
 # 32: green
 # 33: yellow
@@ -16,11 +22,27 @@ compinit
 # 36: cyan
 c=36
 PROMPT=$'%{\e['${c}$'m%}[%{\e[38;5;243m%}%m%{\e['${c}$'m%}]%{\e[0;0m%}\$ '
-RPROMPT=$'[%{\e['${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)]'
+RPROMPT=$'$(isvpn) [%{\e['${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)]'
 
-TMOUT=1
+function refreshvpn() {
+  IS_VPN=$(curl -s https://am.i.mullvad.net/connected 2> /dev/null | \
+    grep 'You are connected' -c)
+}
+
 TRAPALRM() {
+  refreshvpn
   zle reset-prompt }
+TMOUT=20
+
+refreshvpn
+
+mod-accept-line() {
+    zle reset-prompt
+    zle accept-line
+}
+
+zle -N mod-accept-line
+bindkey "^M" mod-accept-line
 
 export EDITOR='vim'
 
