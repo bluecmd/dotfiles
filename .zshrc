@@ -16,10 +16,6 @@ function isvpn {
   fi
 }
 
-
-zle -N mod-accept-line
-bindkey "^M" mod-accept-line
-
 export EDITOR='vim'
 
 alias ls='ls --color'
@@ -63,6 +59,9 @@ mod-accept-line() {
     zle accept-line
 }
 
+zle -N mod-accept-line
+bindkey "^M" mod-accept-line
+
 if uname -r | grep -q Microsoft; then
   umask 0022
   cd ~
@@ -93,4 +92,8 @@ if [[ -z $SSH_AGENT_PID ]] && [[ -z $SSH_AUTH_SOCK ]] && [[ ! -z $DISPLAY ]]; th
     source $HOME/.ssh-agent
     ssh-add
   fi
+fi
+
+if [[ -f /etc/profile.d/nix.sh ]]; then
+  source /etc/profile.d/nix.sh
 fi
