@@ -16,32 +16,6 @@ function isvpn {
   fi
 }
 
-# 31: red
-# 32: green
-# 33: yellow
-# 34: blue
-# 35: magenta
-# 36: cyan
-c=36
-PROMPT=$'%{\e['${c}$'m%}[%{\e[38;5;243m%}%m%{\e['${c}$'m%}]%{\e[0;0m%}\$ '
-RPROMPT=$'[%{\e['${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)] $(isvpn)'
-
-function refreshvpn() {
-  IS_VPN=$(curl -s https://am.i.mullvad.net/connected 2> /dev/null | \
-    grep 'You are connected' -c)
-}
-
-TRAPALRM() {
-  refreshvpn
-  zle reset-prompt }
-TMOUT=20
-
-refreshvpn
-
-mod-accept-line() {
-    zle reset-prompt
-    zle accept-line
-}
 
 zle -N mod-accept-line
 bindkey "^M" mod-accept-line
@@ -58,6 +32,36 @@ export PATH=/usr/local/go/bin:$PATH:$GOPATH/bin/:$HOME/.local/bin
 if [[ -f .zshrc.local ]]; then
   source .zshrc.local
 fi
+
+# 31: red
+# 32: green
+# 33: yellow
+# 34: blue
+# 35: magenta
+# 36: cyan
+c=${COLOR:-36}
+PROMPT=$'%{\e['${c}$'m%}[%{\e[38;5;243m%}%m%{\e['${c}$'m%}]%{\e[0;0m%}\$ '
+RPROMPT=$'[%{\e['${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)] $(isvpn)'
+
+
+if [[ -z "${NO_VPN}" ]]; then
+  function refreshvpn() {
+    IS_VPN=$(curl -s https://am.i.mullvad.net/connected 2> /dev/null | \
+      grep 'You are connected' -c)
+  }
+
+  TRAPALRM() {
+    refreshvpn
+    zle reset-prompt }
+  TMOUT=20
+
+  refreshvpn
+fi
+
+mod-accept-line() {
+    zle reset-prompt
+    zle accept-line
+}
 
 if uname -r | grep -q Microsoft; then
   umask 0022
