@@ -25,8 +25,8 @@ bindkey -e
 bindkey '^Z' push-line
 
 export PATH=/usr/local/go/bin:$PATH:$GOPATH/bin/:$HOME/.local/bin
-if [[ -f .zshrc.local ]]; then
-  source .zshrc.local
+if [[ -f ${HOME}/.zshrc.local ]]; then
+  source ${HOME}/.zshrc.local
 fi
 
 # 31: red
