@@ -11,6 +11,8 @@ compinit
 function isvpn {
   if [[ "${IS_VPN}" == "1" ]]; then
     echo -n '🔒'
+  elif [[ ! -z "$(ip netns identify)" ]]; then
+    echo -n '📦'
   else
     echo -n '  '
   fi
