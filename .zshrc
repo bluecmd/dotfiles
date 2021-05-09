@@ -110,7 +110,7 @@ if [[ -z $SSH_AGENT_PID ]] && [[ -z $SSH_AUTH_SOCK ]] && [[ ! -z $DISPLAY ]]; th
   if ! ssh-add -L &> /dev/null; then
     ssh-agent | grep -vE '^echo' > $HOME/.ssh-agent
     source $HOME/.ssh-agent
-    ssh-add
+    ssh-add -c
   fi
 fi
 
