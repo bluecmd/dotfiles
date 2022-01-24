@@ -21,6 +21,7 @@ export EDITOR='vim'
 
 alias ls='ls --color'
 alias vi='vim'
+alias work='~bluecmd/.dotfiles/work.sh'
 
 bindkey -e
 bindkey '^Z' push-line
