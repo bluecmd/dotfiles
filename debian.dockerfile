@@ -1,4 +1,4 @@
-FROM ubuntu:21.10
+FROM debian:10.11
 
 RUN apt-get update && apt-get -y install \
   build-essential \
@@ -16,7 +16,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive TZ=Europe/Stockholm apt-get
   python3-pip \
   vim \
   dialog \
-  terminfo \
   locales \
   tini \
   nmap \

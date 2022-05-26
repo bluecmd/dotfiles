@@ -3,6 +3,7 @@
 if ! docker ps | grep -q bluecmd-work; then
   docker rm bluecmd-work &> /dev/null
   docker run --name bluecmd-work \
+    --network host \
     -d \
     -h $(hostname)-work \
     -v /home/bluecmd/work:/home/bluecmd/work \
