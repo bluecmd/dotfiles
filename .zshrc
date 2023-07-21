@@ -12,6 +12,8 @@ function isvpn {
     echo -n '🔒'
   elif [[ ! -z "$(ip netns identify)" ]]; then
     echo -n '📦'
+  elif [[ ! -z "${NIX_SHELL_PACKAGES}" ]]; then
+    echo -n '🐚'
   else
     echo -n '  '
   fi
