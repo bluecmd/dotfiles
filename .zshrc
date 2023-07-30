@@ -28,9 +28,6 @@ alias work='~bluecmd/.dotfiles/work.sh'
 bindkey -e
 bindkey '^Z' push-line
 
-bindkey "${key[Up]}" up-line-or-local-history
-bindkey "${key[Down]}" down-line-or-local-history
-
 up-line-or-local-history() {
     zle set-local-history 1
     zle up-line-or-history
@@ -44,8 +41,12 @@ down-line-or-local-history() {
 }
 zle -N down-line-or-local-history
 
-bindkey "^[[1;5A" up-line-or-history    # [CTRL] + Cursor up
-bindkey "^[[1;5B" down-line-or-history  # [CTRL] + Cursor down
+bindkey '^[[A' up-line-or-local-history    # Cursor up
+bindkey '^[[B' down-line-or-local-history  # Cursor down
+bindkey '^P' up-line-or-local-history      # [CTRL] + p
+bindkey '^N' down-line-or-local-history    # [CTRL] + n
+bindkey '^[[1;5A' up-line-or-history       # [CTRL] + Cursor up
+bindkey '^[[1;5B' down-line-or-history     # [CTRL] + Cursor down
 
 export PATH=/usr/local/go/bin:$PATH:$GOPATH/bin/:$HOME/.local/bin
 if [[ -f ${HOME}/.zshrc.local ]]; then
@@ -113,8 +114,11 @@ if [[ -z $SSH_AGENT_PID ]] && [[ -z $SSH_AUTH_SOCK ]] && [[ ! -z $DISPLAY ]]; th
   if ! ssh-add -L &> /dev/null; then
     ssh-agent | grep -vE '^echo' > $HOME/.ssh-agent
     source $HOME/.ssh-agent
-    ssh-add -c
   fi
+fi
+
+if ! ssh-add -L &> /dev/null; then
+  ssh-add -c
 fi
 
 if [[ -f /etc/profile.d/nix.sh ]]; then
