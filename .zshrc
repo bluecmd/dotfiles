@@ -117,8 +117,10 @@ if [[ -z $SSH_AGENT_PID ]] && [[ -z $SSH_AUTH_SOCK ]] && [[ ! -z $DISPLAY ]]; th
   fi
 fi
 
-if ! ssh-add -L &> /dev/null; then
-  ssh-add -c
+if [[ -n $SSH_AGENT_PID ]]; then
+  if ! ssh-add -L &> /dev/null; then
+    ssh-add -c
+  fi
 fi
 
 if [[ -f /etc/profile.d/nix.sh ]]; then
