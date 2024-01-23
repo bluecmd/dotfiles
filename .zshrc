@@ -66,7 +66,7 @@ RPROMPT=$'[%{\e['${c}$'m%}%c%{\e[0m%}] [$(TZ=Europe/Stockholm date +%H:%M:%S)] $
 
 if [[ -z "${NO_VPN}" ]]; then
   function refreshvpn() {
-    IS_VPN=$(curl -s https://am.i.mullvad.net/connected 2> /dev/null | \
+    IS_VPN=$(curl -m 1.0 -s https://am.i.mullvad.net/connected 2> /dev/null | \
       grep 'You are connected' -c)
   }
 
