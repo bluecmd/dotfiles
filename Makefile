@@ -1,10 +1,10 @@
 .PHONY: bluecmd-work
 bluecmd-work:
-	docker build -t cmd.nu/bluecmd-work .
+	podman build -t cmd.nu/bluecmd-work .
 	# Kill any existing instances
-	docker rm -f bluecmd-work
+	podman rm -f bluecmd-work
 
 bluecmd-debian:
-	docker build -t cmd.nu/bluecmd-debian -f debian.dockerfile .
-	docker rm -f bluecmd-debian
+	podman build -t cmd.nu/bluecmd-debian -f debian.dockerfile .
+	podman rm -f bluecmd-debian
 

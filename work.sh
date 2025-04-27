@@ -1,17 +1,18 @@
 #!/bin/bash
 
-if ! docker ps | grep -q bluecmd-work; then
-  docker rm bluecmd-work &> /dev/null
-  docker run --name bluecmd-work \
+if ! podman ps | grep -q bluecmd-work; then
+  podman rm bluecmd-work &> /dev/null
+  podman run --name bluecmd-work \
     --network host \
     -d \
     -h $(hostname)-work \
+    --add-host=$(hostname)-work:127.0.1.1 \
     -v /home/bluecmd/work:/home/bluecmd/work \
     cmd.nu/bluecmd-work \
-    sleep infinity
+    sleep infinity >/dev/null
 fi
 
-exec docker exec \
+exec podman exec \
   -ti bluecmd-work \
   /usr/bin/env \
   LC_ALL=en_US.UTF-8 \
