@@ -122,7 +122,3 @@ if [[ -n $SSH_AGENT_PID ]]; then
     ssh-add -c
   fi
 fi
-
-if [[ -f /etc/profile.d/nix.sh ]]; then
-  source /etc/profile.d/nix.sh
-fi

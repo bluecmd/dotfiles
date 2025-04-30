@@ -7,6 +7,9 @@ if ! podman ps | grep -q bluecmd-work; then
     -d \
     -h $(hostname)-work \
     --add-host=$(hostname)-work:127.0.1.1 \
+    --userns=keep-id \
+    --security-opt=label=disable \
+    --security-opt=label=nested \
     -v /home/bluecmd/work:/home/bluecmd/work \
     cmd.nu/bluecmd-work \
     sleep infinity >/dev/null

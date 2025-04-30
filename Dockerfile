@@ -1,10 +1,13 @@
 FROM docker.io/ubuntu:25.04
 
+RUN sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
 RUN apt-get update && apt-get -y install \
   build-essential \
   autoconf \
   curl \
+  wget \
   apt-utils
+RUN DEBIAN_FRONTEND=noninteractive TZ=Europe/Stockholm apt-get -y build-dep linux-generic
 RUN curl -L https://go.dev/dl/go1.24.2.linux-amd64.tar.gz | tar -zxvf - -C /usr/local/
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive TZ=Europe/Stockholm apt-get -y install \
